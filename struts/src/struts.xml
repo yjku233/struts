@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="euc-kr" />
+	<constant name="struts.multipart.maxSize" value="102400000" />
+	<package name="hello" extends="struts-default">		
+		
+		<interceptors>
+			<interceptor name="mytimer" class="test.sum.SumProAction" />
+			<interceptor name="loginDao" class="test.login.LoginDAOInterceptor" />
+			<interceptor name="my" class="test.interceptor.MyInterceptor" />
+			<interceptor name="ibatis" class="test.ibatis.IbatisInterceptor" />
+		</interceptors>
+		
+		<action name="sum" class="test.sum.SumAction">
+			<result>/sum/sum.jsp</result>
+		</action>
+		
+		<action name="sumPro" class="test.sum.SumProAction">
+			<interceptor-ref name="mytimer" />
+			<interceptor-ref name="prepare" /> <!-- prepare() -->
+			<interceptor-ref name="modelDriven" /> <!-- getModel() -->
+			<interceptor-ref name="params" /> <!-- parameter setter -->
+			<result>/sum/sumPro.jsp</result>
+		</action>
+		
+		<action name="login" class="test.login.LoginAction">
+			<interceptor-ref name="prepare" /> <!-- prepare() -->
+			<interceptor-ref name="modelDriven" /> <!-- getModel() -->
+			<interceptor-ref name="params" /> <!-- parameter setter -->
+			<interceptor-ref name="loginDao" />
+			<result name="login">/login/login.jsp</result>
+			<result name="error">/test/error.jsp</result>
+			<result>/login/login_ok.jsp</result>
+		</action>
+		
+		<action name="form" class="test.struts.FormAction">
+			<interceptor-ref name="my" />
+			<result>/1011/form.jsp</result>
+		</action>
+		
+		<action name="formPro" class="test.struts.FormProAction">
+			<interceptor-ref name="prepare" /> <!-- prepare() -->
+			<interceptor-ref name="modelDriven" /> <!-- getModel() -->
+			<interceptor-ref name="params" /> <!-- parameter setter -->
+			<interceptor-ref name="workflow" /> <!-- validate run -->
+			<result type="chain">ma</result>
+		</action>
+		<action name="ma" class="test.struts.MainAction">
+			<result>/1011/formPro.jsp</result>
+		</action>
+		
+		<action name="checkbox" class="test.checkbox.CheckboxAction">
+			<result>/1012/checkbox.jsp</result>
+		</action>
+		
+		<action name="checkboxPro" class="test.checkbox.CheckboxProAction">
+			<interceptor-ref name="checkbox">
+				<param name="uncheckedValue">false</param>
+			</interceptor-ref>
+			<interceptor-ref name="checkbox" />
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<result>/1012/checkboxPro.jsp</result>
+		</action>
+		
+		<action name="servlet" class="test.struts.ServletAction">
+			<interceptor-ref name="servletConfig" />
+			<result>/1013/servlet.jsp</result>
+		</action>
+		
+		<action name="upload" class="test.struts.UploadAction">
+			<interceptor-ref name="fileUpload" >
+				<param name="allowedTypes">text/planin</param>
+				<param name="allowedTypes">image/jpeg</param>
+			</interceptor-ref>
+			<interceptor-ref name="params" />
+			<result>/1013/save.jsp</result>
+		</action>
+		
+		<action name="select" class="test.ibatis.SelectAction">
+			<result>/1014/select.jsp</result>
+		</action>
+		
+		<action name="insert" class="test.ibatis.InsertAction">
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<result type="redirect-action">select</result>
+		</action>
+		
+		<action name="main" class="test.ibatis.MainAction">
+			<result>/1017/main.jsp</result>
+		</action>
+		<action name="loginForm" class="test.ibatis.LoginFormAction">
+			<result>/1017/loginForm.jsp</result>
+		</action>
+		<action name="confirmId" class="test.ibatis.ConfirmIdAction">
+			<interceptor-ref name="ibatis" />
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<result>/1017/confirmId.jsp</result>
+		</action>
+		<action name="loginPro" class="test.ibatis.LoginProAction">
+			<interceptor-ref name="ibatis" />
+			<interceptor-ref name="servletConfig" />
+			<result type="redirect-action">main</result>
+			<result name="login">/1017/loginPro.jsp</result>
+		</action>
+		<action name="inputForm" class="test.ibatis.InputFormAction">
+			<result>/1017/inputForm.jsp</result>
+		</action>
+		<action name="inputPro" class="test.ibatis.InputProAction">
+			<interceptor-ref name="ibatis" />
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<result type="redirect">/1017/loginForm.jsp</result>
+		</action>
+		<action name="modify" class="test.ibatis.ModifyFormAction">
+			<interceptor-ref name="ibatis" />
+			<interceptor-ref name="servletConfig" />
+			<interceptor-ref name="params" />
+			<result>/1017/modifyForm.jsp</result>
+		</action>
+		<action name="modifyPro" class="test.ibatis.ModifyProAction">
+			<interceptor-ref name="ibatis" />
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<result>/1017/modifyPro.jsp</result>
+		</action>
+		<action name="deleteForm" class="test.ibatis.DeleteFormAction">
+			<result>/1017/deleteForm.jsp</result>
+		</action>
+		<action name="deletePro" class="test.ibatis.DeleteProAction">
+			<result>/1017/deletePro.jsp</result>
+		</action>
+		<action name="logout" class="test.ibatis.LogoutAction">
+			<result>/1017/logout.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

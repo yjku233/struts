@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	
+	<typeAlias alias="dto" type="chll.logon.DataBean" />
+	<select id="userCheck" resultClass="int" parameterClass="java.util.HashMap">
+		select count(*) from member where id=#id# and passwd=#passwd#
+	</select>
+	
+	<insert id="userInsert" parameterClass="ch11.logon.LogonDataBean">
+		insert into member values(#id#,#passwd#,#name#,#jumin1#,#jumin2#,#email#,#blog#,sysdate)
+	</insert>
+	
+	<select id="confirmId" resultClass="int" parameterClass="String">
+		select count(*) from member where id=#id#
+	</select>
+	
+	<select id="modify" resultClass="ch11.logon.LogonDataBean" parameterClass="String">
+		select * from member where id=#id#
+	</select>
+	
+	<update id="userUpdate" parameterClass="ch11.logon.LogonDataBean">
+		update member set passwd=#passwd#, name=#name#, email=#email#, blog=#blog# where id=#id#
+	</update>
+	
+	<select id="pwCheck" resultClass="int" parameterClass="String">
+		select count(passwd) from member where passwd=#passwd#	
+	</select>
+	
+	<delete id="userDelete" parameterClass="String">
+		delete from member where id=#id#
+	</delete>
+</sqlMap>

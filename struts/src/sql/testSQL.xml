@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	
+	<select id="testAll" resultClass="test.ibatis.TestDto">
+		select * from test
+	</select>
+	
+	<select id="testId" resultClass="test.ibatis.TestDto" parameterClass="String" >
+		select * from test where id=#id#
+	</select>
+	
+	<select id="testAge" resultClass="int" >
+		select age from test
+	</select>
+	
+	<insert id="insertTest" parameterClass="test.ibatis.TestDto">
+		insert into test values(#id#,#pw#,#age#,sysdate)
+	</insert>
+
+</sqlMap>
